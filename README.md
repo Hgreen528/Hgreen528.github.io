@@ -2,7 +2,7 @@
 
 **Project Status:** Live and In-Development
 **Role:** Sole Developer (Full-Stack)
-**Live Application:** [website][https://monogatari.ai/]
+**Live Application:** [Monogatari.ai](https://monogatari.ai/)
 
 ---
 
