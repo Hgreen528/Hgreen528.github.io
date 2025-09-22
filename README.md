@@ -8,16 +8,16 @@
 
 ### **1. Project Overview**
 
-Monogatari is a full-stack web application designed to solve a common problem for intermediate language learners: the lack of engaging, level-appropriate reading material. The application leverages generative AI to create unique, bilingual stories tailored to a user's specific learning level, helping to bridge the gap between beginner textbooks and the overwhelming complexity of native-level content.
+Monogatari is a full-stack web application designed to solve a common problem for beginner through early advanced language learners: the lack of engaging, level-appropriate native reading material. The application leverages generative AI to create unique, bilingual stories tailored to a user's specific learning level, helping to bridge the gap between beginner textbooks and the overwhelming complexity of native-level content.
 
 This project serves as a comprehensive demonstration of my ability to architect, develop, and deploy a modern, AI-integrated product from the ground up.
 
 ### **2. Core Features**
 
-* **Dynamic Story Generation:** Users can specify a target language, difficulty (A1-C1), length, and tone to generate a unique story.
-* **Bilingual Reading Interface:** A clean, synchronized view displays the story in both the target language and the user's native language.
-* **Interactive Vocabulary and Audio:** Users can click on any word to get its definition and part of speech. Slides and individual words feature text-to-speech audio to aid in pronunciation and listening practice.
-* **User Content Library:** Generated stories are saved to a user's account for future reading and review.
+* **Dynamic Story Generation:** Users can specify a target language, difficulty (A1-C1), length, tone, and more to generate a unique story.
+* **Bilingual Reading Interface:** A clean, synchronized view displays the story, alongside grammar and vocabulary explanations, in both the target language and the user's native language.
+* **Interactive Vocabulary and Audio:** Users can hover over any word to get its definition and reading, and click a word to hear it pronounced. Slides and individual words feature text-to-speech audio to aid in pronunciation and listening practice.
+* **User Content Library:** Generated stories are saved to a user's account for future reading and review, with export options for Anki flashcard deck export to review and powerpoint export for teachers to use in teaching lessons.
 * **[Upcoming Feature] Passage Analysis Mode:** A new primary mode that allows users to input their own text for a complete linguistic breakdown, applying the same analysis engine used for generated stories.
 
 ### **3. Technical Architecture**
@@ -52,7 +52,7 @@ MongoDB (Database): The final destination for the completed story. The Generatio
 
 ### **4. Technology Stack**
 
-* **Frontend:** React, Tailwind CSS
+* **Frontend:** React, Typescript, Tailwind CSS
 * **Backend:** Python, FastAPI (with AsyncIO and HTTPX for concurrent API calls)
 * **Database:** MongoDB (hosted on MongoDB Atlas)
 * **AI & ML Services:** Google Gemini (for structured data generation), Google Cloud Text-to-Speech
@@ -62,7 +62,7 @@ MongoDB (Database): The final destination for the completed story. The Generatio
 
 This project involved several complex technical challenges. Below are a few key examples that highlight my problem-solving approach.
 
-### **Challenge: Balancing Quality, Speed, and Cost in a Generative AI Pipeline**
+### **Challenge 1: Balancing Quality, Speed, and Cost in a Generative AI Pipeline**
 
 The primary engineering challenge of Monogatari was not simply to generate stories, but to do so within the competing constraints of three critical business and user-experience goals:
 
@@ -92,9 +92,18 @@ The current architecture is the culmination of this iterative process, a distrib
 * **Token Efficiency:** Every prompt has been iteratively refined to produce the desired high-quality, structured output using the fewest possible tokens.
 This granular approach ensures that the operational costs for both the business and the end-user are kept as low as possible, without sacrificing the quality or speed of the generation process.
 
+### **Challenge 2: Evaluating Story Generation Pricing Through Analysis of Fixed Costs, Operational Costs, LLM API Costs**
+
+### **Challenge 3: Adding Maxium Pedagogical Value**
+
+### **Challenge 4: Intuitive and Minimalist UI Design**
+
 ### **6. Future Development**
 
 The project is designed with a clear roadmap for future enhancements, focusing on deepening the pedagogical value and optimizing the business model.
 
 * **Data-Driven Optimization:** Implement a dedicated statistics table to track API costs, generation times, and user ratings, allowing for data-informed prompt engineering and feature development.
 * **Enhanced User Engagement:** Introduce features like story ratings, progress tracking, and gamification to improve user retention.
+* **Active Knowledge Checks:** Integrate a means of testing a users understanding of the generated story
+* **Conversation Mode**: Utilizing the existing breakdown system, allow users to have conversations while leveraging the analysis system for aiding in understanding
+* **Chatbot Tutor**: Add a chatbot style interactive window allowing the user to clarify any additional questions about the learning material, where the LLM has full context on the material in question
