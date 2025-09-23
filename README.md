@@ -62,10 +62,6 @@ MongoDB (Database): The final destination for the completed story. The Generatio
 
 This project involved several complex technical challenges. Below are a few key examples that highlight my problem-solving approach.
 
-Of course. Here is the revised "Challenge" section, integrating your latest feedback and context.
-
----
-
 ### ## Challenge: Architecting a High-Quality, Cost-Effective, and Performant AI Pipeline
 
 As the sole architect and developer, the primary engineering challenge of Monogatari was to continuously balance three competing goals from its inception:
