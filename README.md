@@ -41,12 +41,15 @@ Google Cloud Tasks (Task Queue): Shows you are offloading the work, not handling
     Arrow to ->
 
 Generation Pipeline (The Main Service): This is the service triggered by Cloud Tasks.
-    Arrows to -> Google Gemini (for outline/expansion) and MongoDB (to save initial state).
+    Arrows to -> Google Gemini (for outline/expansion) and MongoDB (to save initial state)
     Multiple Arrows to ->
 
 Slide Process Worker: A distinct block. The multiple arrows from the Generation Pipeline visually represent the "fan-out" pattern.
     Arrows from this worker to -> Google Gemini and Google TTS.
     Multiple Arrows back to -> The Generation Pipeline (this is the "fan-in").
+    Multiple Arrows to Google Cloud Storage (audio saving)
+
+Anki Process Worker: A distinct block with one arrow going in, then an arrow to MongoDB
 
 MongoDB (Database): The final destination for the completed story. The Generation Pipeline writes the final result here.
 
