@@ -31,7 +31,7 @@ A backend pipeline then executes the core logic, first generating a coherent sto
 
 Once all parallel slide-processing tasks are complete, the pipeline 'fans in' the results, assembles the final story object, and persists it to the database. The user's browser polls a status endpoint throughout this process, providing a seamless, real-time view of the generation progress.
 
-[img]https://i.imgur.com/SjumENy.png[/img]
+![Monogatari Architecture Diagram](https://i.imgur.com/SjumENy.png)
 
 ### **4. Technology Stack**
 
