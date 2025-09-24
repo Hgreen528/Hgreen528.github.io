@@ -11,7 +11,7 @@ Monogatari is a full-stack web application born from my personal journey of achi
 
 The application leverages a backend AI generation pipeline to create unique, bilingual stories tailored to a user's learning level, bridging the gap between beginner textbooks and the seemingly overwhelming complexity of native-level content.
 
-To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using React, TypeScript, and Tailwind CSS. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend from the ground up, culminating in a live, monetized application architected for a global audience and ready for its public launch.
+To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using React, TypeScript, and Tailwind CSS. This involved leveraging AI code assistants like Google Gemini to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend from the ground up, culminating in a live, monetized application architected for a global audience and ready for its public launch.
 
 ### **2. Core Features**
 
