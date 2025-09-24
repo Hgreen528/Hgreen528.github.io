@@ -7,8 +7,9 @@
 ---
 
 ### **1. Project Overview**
+Monogatari is a full-stack web application designed to solve a common problem for language learners: the lack of engaging, level-appropriate reading material. The application leverages a sophisticated AI backend to create unique, bilingual stories tailored to a user's specific learning level.
 
-Monogatari is a full-stack web application designed to solve a common problem for beginner through early advanced language learners: the lack of engaging, level-appropriate native reading material. The application leverages generative AI to create unique, bilingual stories tailored to a user's specific learning level, helping to bridge the gap between beginner textbooks and the overwhelming complexity of native-level content.
+To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using **React, TypeScript, and Tailwind CSS**. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend.
 
 This project serves as a comprehensive demonstration of my ability to architect, develop, and deploy a modern, AI-integrated product from the ground up.
 
@@ -63,9 +64,9 @@ MongoDB (Database): The final destination for the completed story. The Generatio
 
 ### **5. Technical Challenges & Solutions**
 
-This project involved several complex technical challenges. Below are a few key examples that highlight my problem-solving approach.
+This project involved several complex technical challenges. Below are a couple key examples that highlight my problem-solving approach.
 
-### ## Challenge: Architecting a High-Quality, Cost-Effective, and Performant AI Pipeline
+### ## Challenge 1: Architecting a High-Quality, Cost-Effective, and Performant AI Pipeline
 
 As the sole architect and developer, the primary engineering challenge of Monogatari was to continuously balance three competing goals from its inception:
 
@@ -96,11 +97,18 @@ With a functioning pipeline, the focus shifted to deep optimization based on use
 2.  **Data-Driven Cost Management:** As costs became a factor, token tracking was implemented to gain visibility into the pipeline's efficiency. This led to the critical discovery that Gemini's un-reported "thinking" tokens were undercounting actual costs by a factor of approximately **2.4x**. While analysis of this new data is ongoing, it immediately informed a pragmatic decision to "lighten up" the generation process by deferring non-essential, high-cost tasks—like the generation of multiple example sentences—from the main pipeline.
 3.  **Building a Resilient, Distributed Architecture:** When logs revealed that some generations took over 10 minutes due to "hanging" API calls, the architecture was fundamentally changed. The long-running process was replaced with a **job-based system using Google Cloud Tasks**, allowing the user to poll for status updates without a persistent connection. Further investigation revealed a non-obvious rate-limiting behavior from the API. By implementing a **decoupled microservice** to handle concurrent slide generation, the issue was isolated and controlled. This final architectural change resolved the extreme wait times and significantly improved the system's overall resilience.
 
-### **Challenge 2: Evaluating Story Generation Pricing Through Analysis of Fixed Costs, Operational Costs, LLM API Costs**
+**## Challenge 2: Implementing a Secure and Automated Monetization System**
 
-### **Challenge 3: Adding Maxium Pedagogical Value**
+**The Problem:**
+To be a viable product, the application required a secure and fully automated system to handle user payments, subscriptions, and the fulfillment of credits. The system needed to be reliable, secure against exploits, and provide a seamless user experience for purchasing and using credits.
 
-### **Challenge 4: Intuitive and Minimalist UI Design**
+**The Solution:**
+I engineered an end-to-end monetization system by integrating the Stripe API.
+* **Payment Processing:** Leveraged Stripe Checkout for a secure, PCI-compliant payment experience for both one-time credit purchases and recurring subscriptions.
+* **Automated Fulfillment:** Implemented a Stripe Webhook endpoint in the FastAPI backend. This endpoint securely listens for successful payment events and automatically updates the user's credit balance in the MongoDB database, decoupling the fulfillment logic from the client-side interaction.
+* **Credit System:** Designed and implemented a credit ledger system that safely handles the transactional logic of deducting credits upon story generation, ensuring that operations are atomic and reliable.
+
+This solution demonstrates my ability to integrate a critical third-party API, handle secure financial transactions, and build a reliable, event-driven system to manage core business logic.
 
 ### **6. Future Development**
 
