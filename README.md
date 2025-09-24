@@ -7,21 +7,19 @@
 ---
 
 ### **1. Project Overview**
-Monogatari is a full-stack web application born from my personal journey of achieving fluency in Japanese as an adult. My own learning was defined by a process of heavy immersion—laboriously reading native materials while constantly cross-referencing dictionaries and grammar guides. This project's core mission is to replicate the pedagogical value of that immersive process in a streamlined, user-friendly package.
+Monogatari is a full-stack web application born from my personal journey of achieving fluency in Japanese as an adult. My own learning was defined by a process of heavy immersion — constantly reading native materials while cross-referencing dictionaries and grammar guides. This project's core mission is to replicate the pedagogical value of that immersive process in a streamlined, user-friendly package.
 
-The application leverages a sophisticated AI backend to create unique, bilingual stories tailored to a user's specific learning level, bridging the gap between beginner textbooks and the overwhelming complexity of native-level content.
+The application leverages a backend AI generation pipeline to create unique, bilingual stories tailored to a user's learning level, bridging the gap between beginner textbooks and the seemingly overwhelming complexity of native-level content.
 
-To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using React, TypeScript, and Tailwind CSS. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend.
-
-This project serves as a comprehensive demonstration of my ability to architect, develop, and deploy a modern, AI-integrated product from the ground up.
+To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using React, TypeScript, and Tailwind CSS. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend from the ground up, culminating in a live, monetized application architected for a global audience and ready for its public launch.
 
 ### **2. Core Features**
 
-* **Dynamic Story Generation:** Users can specify a target language, difficulty (A1-C1), length, tone, and more to generate a unique story.
+* **Dynamic Story Generation:** Users can specify a target language, difficulty (CEFR A1-C1), length, tone, and more to generate a unique story.
 * **Bilingual Reading Interface:** A clean, synchronized view displays the story, alongside grammar and vocabulary explanations, in both the target language and the user's native language.
 * **Interactive Vocabulary and Audio:** Users can hover over any word to get its definition and reading, and click a word to hear it pronounced. Slides and individual words feature text-to-speech audio to aid in pronunciation and listening practice.
 * **User Content Library:** Generated stories are saved to a user's account for future reading and review, with export options for Anki flashcard deck export to review and powerpoint export for teachers to use in teaching lessons.
-* **[Upcoming Feature] Passage Analysis Mode:** A new primary mode that allows users to input their own text for a complete linguistic breakdown, applying the same analysis engine used for generated stories.
+* **[Upcoming Feature] Passage Analysis Mode:** A new primary mode that allows users to input text they need help understanding for a complete linguistic breakdown, applying the same analysis engine used for generated stories.
 
 ### **3. Technical Architecture**
 
@@ -31,7 +29,7 @@ A backend pipeline then executes the core logic, first generating a coherent sto
 
 Once all parallel slide-processing tasks are complete, the pipeline 'fans in' the results, assembles the final story object, and persists it to the database. The user's browser polls a status endpoint throughout this process, providing a seamless, real-time view of the generation progress.
 
-![Monogatari Architecture Diagram](https://i.imgur.com/SjumENy.png)
+![Monogatari Architecture Diagram](https://i.imgur.com/GtAuolK.png)
 
 ### **4. Technology Stack**
 
@@ -41,6 +39,8 @@ Once all parallel slide-processing tasks are complete, the pipeline 'fans in' th
 * **AI & ML Services:** Google Gemini (for structured data generation), Google Cloud Text-to-Speech
 * **Deployment & Hosting:** Google Cloud Platform, Uvicorn/Gunicorn, Docker
 
+This stack was chosen for Python's strength in AI, FastAPI's high performance for asynchronous operations, React's robust ecosystem for building interactive UIs, and the high quality of Gemini's multi-lingual output and Vertex AI TTS options.
+
 ### **5. Technical Challenges & Solutions**
 
 This project involved several complex technical challenges. Below are a couple key examples that highlight my problem-solving approach.
@@ -49,26 +49,23 @@ This project involved several complex technical challenges. Below are a couple k
 
 As the sole architect, the primary engineering challenge of Monogatari was to continuously balance three competing goals from its inception: high pedagogical quality, fast generation speed (<1 min best case), and low operational cost. The initial single-prompt approach failed to meet the quality requirement, leading to the development of a specialized, distributed system that addressed both user-facing and business-facing needs through dozens of pipeline and prompt iterations.
 
-* **Solution for User Experience (Quality & Speed):** To ensure a high-quality and responsive user experience, the pipeline was architected for both narrative coherence and performance. For quality, a multi-stage process was implemented, starting with a high-level story outline that is then expanded into a full narrative. For speed, the system was designed to be fully asynchronous. An initial non-blocking API call triggers a Google Cloud Tasks job, which then "fans-out" parallel requests for slide processing, reducing generation time by 90-98% over sequential generation.
+* **Solution for User Experience (Quality & Speed):** To ensure a high-quality and responsive user experience, the pipeline was architected for both narrative coherence and performance. For quality, a multi-stage process was implemented, starting with a high-level story outline that is then expanded into a full narrative and afterwards analyzed sentence by sentence to generate slides. For speed, the system was designed to be fully asynchronous. An initial non-blocking API call triggers a Google Cloud Tasks job, which then "fans-out" parallel requests for slide processing, reducing generation time by 90-98% over sequential generation.
 
-* **Solution for Business Viability (Resilience & Cost):** To ensure the service was reliable and financially sustainable, the backend was hardened and optimized. For resilience, a major problem was solving "hanging" API calls that caused jobs to fail after 10+ minutes. A timeout was introduced based on longest expected LLM response times, and further log analysis revealed a statistical anomaly: response times were not clustering around a mean per prompt type as expected, but returning in a staggered, linear pattern. This suggested a non-obvious rate-limiting issue. I validated this hypothesis by introducing a Semaphore to control concurrency, which confirmed the behavior. This data-driven analysis was the primary driver for architecting a decoupled, auto-scaling microservice to isolate and manage these concurrent calls, resolving the bottleneck and improving system reliability. This in turn allowed for a far tighter timeout window to handle the hanging calls. For cost, implementing token tracking revealed that Gemini's "thinking" tokens were a significant unexpected cost (a ~2.4x factor on total tokens), which informed a prompt optimization strategy to defer non-essential generation tasks.
+* **Solution for Business Viability (Resilience & Cost):** To ensure the service was reliable and financially sustainable, the backend was hardened and optimized. For resilience, a major problem was solving "hanging" API calls that caused jobs to fail after 10+ minutes. A timeout was introduced based on longest expected LLM response times, and further log analysis revealed a statistical anomaly: response times were not clustering around a mean per prompt type as expected, but returning in a staggered, linear pattern. This suggested a non-obvious rate-limiting issue. I validated this hypothesis by introducing a Semaphore to control concurrency, which confirmed the expected behavior. This data-driven analysis was the primary driver for architecting a decoupled, auto-scaling microservice to isolate and manage these concurrent calls, resolving the bottleneck and improving system reliability. This in turn allowed for a far tighter timeout window to handle the hanging calls. For cost, implementing token tracking revealed that Gemini's "thinking" tokens were a significant unexpected cost (a ~2.4x factor on total tokens), which informed a prompt optimization strategy to defer non-essential generation tasks.
 
-**## Challenge 2: Implementing a Secure and Automated Monetization System**
+**## Challenge 2: Designing a Flexible and Secure Monetization Model**
 
 **The Problem:**
-To be a viable product, the application required a secure and fully automated system to handle user payments, subscriptions, and the fulfillment of credits. The system needed to be reliable, secure against exploits, and provide a seamless user experience for purchasing and using credits.
+The application required a monetization strategy that could cater to different user habits—from casual, infrequent users to dedicated power users. The design needed to be flexible, fully automated, and abstract away the variable, per-API-call cost of generation into a predictable model for the user.
 
-**The Solution:**
-I engineered an end-to-end monetization system by integrating the Stripe API.
-* **Payment Processing:** Leveraged Stripe Checkout for a secure, PCI-compliant payment experience for both one-time credit purchases and recurring subscriptions.
-* **Automated Fulfillment:** Implemented a Stripe Webhook endpoint in the FastAPI backend. This endpoint securely listens for successful payment events and automatically updates the user's credit balance in the MongoDB database, decoupling the fulfillment logic from the client-side interaction.
-* **Credit System:** Designed and implemented a credit ledger system that safely handles the transactional logic of deducting credits upon story generation, ensuring that operations are atomic and reliable.
-
-This solution demonstrates my ability to integrate a critical third-party API, handle secure financial transactions, and build a reliable, event-driven system to manage core business logic.
+**The Design & Solution:**
+I designed a hybrid credit and subscription model to meet these diverse user needs.
+* **System Design:** The core of the system is a credit-based ledger where each generation task deducts a pre-defined number of credits. This design provides users with clear, predictable pricing. To serve both user types, I implemented two purchasing options: one-time credit packs for casual users and a monthly subscription that provides a recurring allotment of credits at a discounted rate for power users.
+* **Secure Implementation:** To execute this design, I integrated the Stripe API. A secure, server-side Stripe Webhook endpoint handles automated fulfillment, ensuring that user credits are only updated after a verified, successful payment event. This event-driven approach is critical for reliability and prevents client-side manipulation, forming the secure backbone of the entire monetization system.
 
 ### **6. Future Development**
 
-The project is designed with a clear roadmap for future enhancements, focusing on deepening the pedagogical value and optimizing the business model.
+The project is designed with a clear roadmap for future enhancements. Development will be prioritized based on user feedback and data analysis, with a focus on features that most directly enhance the core learning loop.
 
 * **Data-Driven Optimization:** Implement a dedicated statistics table to track API costs, generation times, and user ratings, allowing for data-informed prompt engineering and feature development.
 * **Enhanced User Engagement:** Introduce features like story ratings, progress tracking, and gamification to improve user retention.
