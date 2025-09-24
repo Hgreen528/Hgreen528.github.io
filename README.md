@@ -7,9 +7,11 @@
 ---
 
 ### **1. Project Overview**
-Monogatari is a full-stack web application designed to solve a common problem for language learners: the lack of engaging, level-appropriate reading material. The application leverages a sophisticated AI backend to create unique, bilingual stories tailored to a user's specific learning level.
+Monogatari is a full-stack web application born from my personal journey of achieving fluency in Japanese as an adult. My own learning was defined by a process of heavy immersion—laboriously reading native materials while constantly cross-referencing dictionaries and grammar guides. This project's core mission is to replicate the pedagogical value of that immersive process in a streamlined, user-friendly package.
 
-To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using **React, TypeScript, and Tailwind CSS**. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend.
+The application leverages a sophisticated AI backend to create unique, bilingual stories tailored to a user's specific learning level, bridging the gap between beginner textbooks and the overwhelming complexity of native-level content.
+
+To deliver a modern and highly interactive user experience, I independently learned and implemented the frontend using React, TypeScript, and Tailwind CSS. This involved leveraging LLMs as a development assistant to rapidly prototype components, enforce best practices, and accelerate the learning process. This project serves as a comprehensive demonstration of my ability to architect and deploy a complete, AI-integrated product, encompassing both a complex, distributed backend and a modern, type-safe frontend.
 
 This project serves as a comprehensive demonstration of my ability to architect, develop, and deploy a modern, AI-integrated product from the ground up.
 
