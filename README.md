@@ -31,30 +31,7 @@ A backend pipeline then executes the core logic, first generating a coherent sto
 
 Once all parallel slide-processing tasks are complete, the pipeline 'fans in' the results, assembles the final story object, and persists it to the database. The user's browser polls a status endpoint throughout this process, providing a seamless, real-time view of the generation progress.
 
-
-
-React Frontend: The user's entry point.
-    Arrow to ->
-
-Orchestrator API (FastAPI): Receives the initial request.
-    Arrow back to -> React Frontend (with UUID)
-    Arrow to ->
-
-Google Cloud Tasks (Task Queue): Shows you are offloading the work, not handling it in the web request.
-    Arrow to ->
-
-Generation Pipeline (The Main Service): This is the service triggered by Cloud Tasks.
-    Arrows to -> Google Gemini (for outline/expansion) and MongoDB (to save initial state)
-    Multiple Arrows to ->
-
-Slide Process Worker: A distinct block. The multiple arrows from the Generation Pipeline visually represent the "fan-out" pattern.
-    Arrows from this worker to -> Google Gemini and Google TTS.
-    Multiple Arrows back to -> The Generation Pipeline (this is the "fan-in").
-    Multiple Arrows to Google Cloud Storage (audio saving)
-
-Anki Process Worker: A distinct block with one arrow going in, then an arrow to MongoDB
-
-MongoDB (Database): The final destination for the completed story. The Generation Pipeline writes the final result here.
+![](https://imgur.com/SjumENy)
 
 ### **4. Technology Stack**
 
