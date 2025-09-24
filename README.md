@@ -47,34 +47,11 @@ This project involved several complex technical challenges. Below are a couple k
 
 ### ## Challenge 1: Architecting a High-Quality, Cost-Effective, and Performant AI Pipeline
 
-As the sole architect and developer, the primary engineering challenge of Monogatari was to continuously balance three competing goals from its inception:
+As the sole architect, the primary engineering challenge of Monogatari was to continuously balance three competing goals from its inception: high pedagogical quality, fast generation speed (<1 min best case), and low operational cost. The initial single-prompt approach failed to meet the quality requirement, leading to the development of a specialized, distributed system that addressed both user-facing and business-facing needs through dozens of pipeline and prompt iterations.
 
-* **Quality:** Generate high-quality, pedagogically sound, and logically coherent learning materials.
-* **Speed:** Ensure the generation process for the simplest stories remained under a one-minute target to maintain user engagement.
-* **Cost:** Minimize the expense of LLM API calls to keep the service affordable and viable as a business.
+* **Solution for User Experience (Quality & Speed):** To ensure a high-quality and responsive user experience, the pipeline was architected for both narrative coherence and performance. For quality, a multi-stage process was implemented, starting with a high-level story outline that is then expanded into a full narrative. For speed, the system was designed to be fully asynchronous. An initial non-blocking API call triggers a Google Cloud Tasks job, which then "fans-out" parallel requests for slide processing, reducing generation time by 90-98% over sequential generation.
 
-This narrative details the evolution of the system's architecture and prompt engineering strategy in pursuit of these goals.
-
----
-
-### ## Evolution of the Solution
-
-#### **Phase 1: From Concept to a Multi-Lingual Foundation**
-The project began as a proof-of-concept to determine if generative AI could produce beginner-level bilingual stories comparable in quality to human-created teaching materials. The initial architectural step was to move from a freeform text response to a structured data model using `Story` and `Slide` objects.
-
-A critical early decision was to use the LLM for linguistic annotations (like definitions and grammar points) rather than integrating language-specific NLP libraries. This decision was crucial for scalability, as it allowed the app to expand from one to eight languages **without requiring the integration of seven additional, specialized libraries, saving significant development time and cost.** The LLM's superior ability to determine contextual meaning, such as identifying a proper noun versus a common noun, further solidified this choice.
-
-#### **Phase 2: The Shift to a Specialized, Asynchronous Pipeline**
-As more features were added to the single, monolithic prompt, the quality of the narrative began to degrade. To solve this, the process was broken into a multi-phase pipeline, with each step handling a specialized task. While this improved quality, the sequential processing increased generation time to over 3.5 minutes, failing the project's speed requirement.
-
-The key to resolving this was a shift to asynchronous processing. By parallelizing the most time-consuming part of the pipeline—the sentence-by-sentence annotation—using `asyncio.gather`, the generation time for simple stories was **reduced by 75%**, bringing it back under the one-minute target.
-
-#### **Phase 3: Deep Optimization and Architectural Maturity**
-With a functioning pipeline, the focus shifted to deep optimization based on user feedback and performance monitoring.
-
-1.  **Enhancing Quality & User Choice:** To address feedback that higher-level stories were too simple, the pipeline was restructured to first generate a **narrative outline** and then expand it into a full story. User customization options for genre, tone, and length were also introduced, requiring the development of distinct prompt templates to maintain quality across different story types.
-2.  **Data-Driven Cost Management:** As costs became a factor, token tracking was implemented to gain visibility into the pipeline's efficiency. This led to the critical discovery that Gemini's un-reported "thinking" tokens were undercounting actual costs by a factor of approximately **2.4x**. While analysis of this new data is ongoing, it immediately informed a pragmatic decision to "lighten up" the generation process by deferring non-essential, high-cost tasks—like the generation of multiple example sentences—from the main pipeline.
-3.  **Building a Resilient, Distributed Architecture:** When logs revealed that some generations took over 10 minutes due to "hanging" API calls, the architecture was fundamentally changed. The long-running process was replaced with a **job-based system using Google Cloud Tasks**, allowing the user to poll for status updates without a persistent connection. Further investigation revealed a non-obvious rate-limiting behavior from the API. By implementing a **decoupled microservice** to handle concurrent slide generation, the issue was isolated and controlled. This final architectural change resolved the extreme wait times and significantly improved the system's overall resilience.
+* **Solution for Business Viability (Resilience & Cost):** To ensure the service was reliable and financially sustainable, the backend was hardened and optimized. For resilience, a major problem was solving "hanging" API calls that caused jobs to fail after 10+ minutes. A timeout was introduced based on longest expected LLM response times, and further log analysis revealed a statistical anomaly: response times were not clustering around a mean per prompt type as expected, but returning in a staggered, linear pattern. This suggested a non-obvious rate-limiting issue. I validated this hypothesis by introducing a Semaphore to control concurrency, which confirmed the behavior. This data-driven analysis was the primary driver for architecting a decoupled, auto-scaling microservice to isolate and manage these concurrent calls, resolving the bottleneck and improving system reliability. This in turn allowed for a far tighter timeout window to handle the hanging calls. For cost, implementing token tracking revealed that Gemini's "thinking" tokens were a significant unexpected cost (a ~2.4x factor on total tokens), which informed a prompt optimization strategy to defer non-essential generation tasks.
 
 **## Challenge 2: Implementing a Secure and Automated Monetization System**
 
