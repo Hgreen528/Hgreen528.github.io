@@ -7,7 +7,7 @@
 ---
 
 ### **1. Project Overview**
-Monogatari is a full-stack web application born from my personal journey of achieving fluency in Japanese as an adult. My own learning was defined by a process of heavy immersion — constantly reading native materials while cross-referencing dictionaries and grammar guides. This project's core mission is to replicate the pedagogical value of that immersive process in a streamlined, user-friendly package.
+Monogatari is a full-stack web application born from my personal journey of achieving fluency in Japanese as an adult. My own learning was defined by a process of heavy immersion, constantly reading native materials while cross-referencing dictionaries and grammar guides. This project's core mission is to replicate the pedagogical value of that immersive process in a streamlined, user-friendly package.
 
 The application leverages a backend AI generation pipeline to create unique, bilingual stories tailored to a user's learning level, bridging the gap between beginner textbooks and the seemingly overwhelming complexity of native-level content.
 
