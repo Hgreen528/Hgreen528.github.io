@@ -15,7 +15,7 @@ To deliver a modern and highly interactive user experience, I independently lear
 
 ### **2. Core Features**
 
-* **Dynamic Story Generation:** Users can specify a target language, difficulty (CEFR A1-C1), length, tone, and more to generate a unique story.
+* **Dynamic Story Generation:** Users can specify a target language, difficulty (CEFR A1-C1), length, style, and more to generate a unique story.
 * **Bilingual Reading Interface:** A clean, synchronized view displays the story, alongside grammar and vocabulary explanations, in both the target language and the user's native language.
 * **Interactive Vocabulary and Audio:** Users can hover over any word to get its definition and reading, and click a word to hear it pronounced. Slides and individual words feature text-to-speech audio to aid in pronunciation and listening practice.
 * **User Content Library:** Generated stories are saved to a user's account for future reading and review, with export options for Anki flashcard deck export to review and powerpoint export for teachers to use in teaching lessons.
