@@ -67,7 +67,8 @@ I designed a hybrid credit and subscription model to meet these diverse user nee
 
 The project is designed with a clear roadmap for future enhancements. Development will be prioritized based on user feedback and data analysis, with a focus on features that most directly enhance the core learning loop.
 
-* **Passage Analysis Mode:** A new primary mode that allows users to input text they need help understanding for a complete linguistic breakdown, applying the same analysis engine used for generated stories.
+* ~~**Passage Analysis Mode:** A new primary mode that allows users to input text they need help understanding for a complete linguistic breakdown, applying the same analysis engine used for generated stories.~~ - Completed 12/06/25
+* **AI as a Judge Regression Testing:** Utilize AI as a judge to establish the current baseline story quality numerically, allowing for future prompt and pipeline updates to be tested against the baseline for generation quality.
 * **Continuous Prompt & Model Optimization:** Actively use the new data analytics pipeline to continuously refine prompts, test new AI models, and further reduce generation costs and latency.
 * **Enhanced User Engagement:** Introduce features like story ratings, progress tracking, and gamification to improve user retention.
 * **Active Knowledge Checks:** Integrate a means of testing a users understanding of the generated story.
